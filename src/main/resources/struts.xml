@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <!-- 修改常量管理struts 中的action的工程，这个常量的使用，必须引入 spring和struts的整合包，不然spring无法管理struts2 Action 中的实体类-->
+    <constant name="struts.objectFactory" value="spring" />
+    <constant name="struts.devMode" value="true" />
+
+
+    <package name="Exper" namespace="/" extends="struts-default">
+        <action name="login" class="Exper.action.BaseAction" method="login">
+            <result name="success">/Exper/goList.jsp</result>
+            <result name="error">/Exper/error.jsp</result>
+        </action>
+        <action name="show" class="Exper.action.BaseAction" method="show">
+            <result name="success">/Exper/list.jsp</result>
+            <result name="error">/Exper/error.jsp</result>
+        </action>
+        <action name="add" class="Exper.action.GoodsAction" method="add">
+            <result name="success">/Exper/goList.jsp</result>
+            <result name="error">/Exper/error.jsp</result>
+        </action>
+        <action name="delete" class="Exper.action.GoodsAction" method="delete">
+            <result name="success"> /Exper/goList.jsp</result>
+            <result name="error">/Exper/error.jsp</result>
+        </action>
+    </package>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <package name="many" namespace="/ManyToMany" extends="struts-default">-->
+<!--        <action name="many" class="com.gly.testHibernate.ManyToMany.action.ManyToManyAction" method="HQ">-->
+<!--            <result name="success">/ManyToMany/index.jsp</result>-->
+<!--        </action>-->
+<!--        <action name="query" class="com.gly.testHibernate.ManyToMany.action.ManyToManyAction" method="CX">-->
+<!--            <result name="success">/ManyToMany/QueryResult.jsp</result>-->
+<!--            <result name="error">/ManyToMany/error.jsp</result>-->
+<!--        </action>-->
+<!--        <action name="queryAll" class="com.gly.testHibernate.ManyToMany.action.ManyToManyAction" method="QueryAll">-->
+<!--            <result name="success">/ManyToMany/QueryResult.jsp</result>-->
+<!--            <result name="error">/ManyToMany/error.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+    <package name="login" namespace="/intercepter" extends="struts-default">
+        <interceptors>
+            <!-- 1. 注册拦截器 -->
+            <interceptor name="MyIntercepter" class="com.gly.TestStruts.intercepter.MyIntercepter"></interceptor>
+            <!-- 拦截器栈： 先入后出的执行链， 在默认拦截器之前执行放在defaultStack后面 -->
+            <interceptor-stack name="myInter">
+                <!-- 2.将自定义拦截器加入struts2栈 -->
+                <interceptor-ref name="MyIntercepter">
+                    <!-- 不拦截login方法 -->
+                    <param name="excludeMethods">login</param>
+<!--                    <param name="includeMethods"></param>-->
+                </interceptor-ref>
+                <!-- 3.调用全部默认拦截器 -->
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <!-- 4. 指定当前package的默认拦截器栈 -->
+        <default-interceptor-ref name="myInter"></default-interceptor-ref>
+
+
+        <global-results>
+            <result name="success" type="redirect">intercepter/login.jsp</result>
+        </global-results>
+
+        <action name="loginAction" class="com.gly.TestStruts.intercepter.LoginAction" method="login">
+            <result name="success">/intercepter/index.jsp</result>
+        </action>
+        <action name="MenuAction" class="com.gly.TestStruts.intercepter.MenuAction" method="show">
+            <result name="success">/intercepter/index.jsp</result>
+        </action>
+    </package>
+
+<!--    <package name="user" extends="struts-default" namespace="/">-->
+<!--        <action name="user" class="com.gly.action.UserAction" method="m1">-->
+<!--            <result name="success">/test.jsp</result>-->
+<!--&lt;!&ndash;            <allowed-methods>m1,saveUser</allowed-methods>&ndash;&gt;-->
+<!--            &lt;!&ndash; struts 2.5 之后，使用通配符必须加上这一行 ，否则无法使用通配符访问&ndash;&gt;-->
+<!--        </action>-->
+<!--    </package>-->
+
+<!--    <package name="hello" namespace="/" extends="struts-default">-->
+<!--        <action name="helloWorldAction" class="com.gly.HelloWorldAction" method="hello">-->
+<!--            <result name="success">/index.jsp</result>-->
+<!--        </action>-->
+<!--    </package>-->
+
+</struts>

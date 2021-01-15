@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.gly.testHibernate.OneToMany.entity.Huser" table="huser" schema="db1">
+        <id name="uid">
+            <column name="uid" sql-type="int(10)"/>
+        </id>
+        <property name="uname">
+            <column name="uname" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="sid">
+            <column name="sid" sql-type="int(10)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

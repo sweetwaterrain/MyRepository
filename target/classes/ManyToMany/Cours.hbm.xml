@@ -1,0 +1,17 @@
+<hibernate-mapping package="ManyToMany">
+    <class name="com.gly.testHibernate.ManyToMany.Cours" table="h_cours">
+        <id name="c_id">
+            <generator class="native"/>
+        </id>
+        <property name="c_name" />
+
+        <!--
+            inverse = true : 不维护多对多的关系
+            inverse 的默认值是 false
+         -->
+        <set name="s_set" table="h_student_cours" inverse="true">
+            <key column="c_id" />
+            <many-to-many lazy="false" class="com.gly.testHibernate.ManyToMany.Stu" column="s_id"/>
+        </set>
+    </class>
+</hibernate-mapping>

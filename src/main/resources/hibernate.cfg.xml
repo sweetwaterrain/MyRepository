@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/db1?useUnicode=true&amp;characterEncoding=UTF8</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">993214</property>
+<!--    <property name="hibernate.hbm2ddl.auto">update</property>-->
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+
+<!--    实验-->
+    <mapping resource="Exper/User.hbm.xml"/>
+    <mapping class="Exper.entity.User"/>
+    <mapping resource="Exper/Goods.hbm.xml"/>
+    <mapping class="Exper.entity.Goods"/>
+
+
+<!--    <mapping class="com.gly.model.User"/>-->
+<!--    <mapping resource="hiber/User.hbm.xml"/>-->
+<!--    <mapping resource="hiber/Bank.hbm.xml"/>-->
+<!--    <mapping class="com.gly.testHibernate.sk.Bank"/>-->
+<!--    <mapping resource="hiber/Hstudent.hbm.xml"/>-->
+<!--    <mapping class="com.gly.testHibernate.OneToMany.entity.Hstudent"/>-->
+<!--    <mapping resource="hiber/Huser.hbm.xml"/>-->
+
+<!--    <mapping class="com.gly.testHibernate.OneToMany.entity.Huser"/>-->
+<!--    <mapping resource="/ManyToMany/Cours.hbm.xml"/>-->
+<!--    <mapping class="com.gly.testHibernate.ManyToMany.Cours"/>-->
+<!--    <mapping resource="/ManyToMany/Stu.hbm.xml"/>-->
+<!--    <mapping class="com.gly.testHibernate.ManyToMany.Stu"/>-->
+
+<!--    <mapping resource="hiber/Tx.hbm.xml"/>-->
+<!--    <mapping class="aop_data.dao.Tx"/>-->
+
+
+      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

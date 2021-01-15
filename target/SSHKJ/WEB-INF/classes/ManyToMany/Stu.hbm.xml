@@ -1,0 +1,15 @@
+<hibernate-mapping package="ManyToMany">
+    <class name="com.gly.testHibernate.ManyToMany.Stu" table="h_student">
+        <id name="s_id" >
+            <generator class="native"/>
+        </id>
+        <property name="s_name"/>
+        <property name="s_state" />
+        <!-- 多对多关系的表述 -->
+        <set name="c_set" table="h_student_cours" >
+            <!-- 对应本类当中的主键 -->
+            <key column="s_id"/>
+            <many-to-many lazy="false" class="com.gly.testHibernate.ManyToMany.Cours" column="c_id" />
+        </set>
+    </class>
+</hibernate-mapping>

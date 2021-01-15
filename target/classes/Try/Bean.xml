@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<!--    无参构造-->
+    <bean id="user" class="Try.action.User">
+        <property name="name" value="GLY"/>
+    </bean>
+<!--    有参构造-->
+    <bean id="userT" class="Try.action.UserT">
+        <constructor-arg name="name" value="GLY"/>
+    </bean>
+
+    <bean id="addr" class="Try.action.Address">
+        <property name="address" value="济南"/>
+    </bean>
+    <bean id="student" class="Try.action.Student">
+        <!--    常量注入-->
+        <property name="name" value="gly"/>
+        <property name="address" ref="addr"/>
+        <!--    数组注入-->
+        <property name="books">
+            <array>
+                <value>西游记</value>
+                <value>红楼梦</value>
+                <value>水浒传</value>
+                <value>三国演义</value>
+            </array>
+        </property>
+<!--        List注入-->
+        <property name="hobbys">
+            <list>
+                <value>听歌</value>
+                <value>看剧</value>
+                <value>爬山</value>
+            </list>
+        </property>
+<!--        map注入-->
+        <property name="card">
+            <map>
+                <entry key="中国邮政" value="454545454545454"/>
+                <entry key="建设" value="78787878780"/>
+            </map>
+        </property>
+<!--        set注入-->
+        <property name="games">
+            <set>
+                <value>LOL</value>
+                <value>Data</value>
+            </set>
+        </property>
+<!--        null注入-->
+        <property name="wife"><null/></property>
+<!--        Properties注入-->
+        <property name="info">
+            <props>
+                <prop key="学号">123456</prop>
+                <prop key="性别">男</prop>
+                <prop key="姓名">gly</prop>
+            </props>
+        </property>
+    </bean>
+
+    <context:annotation-config/>
+    <bean id="dog" class="Try.action.Dog"/>
+    <bean id="dag1" class="Try.action.Dog"/>
+    <bean id="cat" class="Try.action.Cat"/>
+    <bean id="AAA" class="Try.action.AAA"/>
+
+
+</beans>

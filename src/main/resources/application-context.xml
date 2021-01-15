@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context.xsd
+               http://www.springframework.org/schema/tx
+               http://www.springframework.org/schema/tx/spring-tx.xsd
+               http://www.springframework.org/schema/aop
+               http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.gly.testSpring.DI" />
+
+    <context:component-scan base-package="sk.spring" />
+    <!-- 1. 配置被代理对象 -->
+    <bean class="sk.spring.service.impl.UserServiceImpl" name="userService"></bean>
+
+    <!-- 2. 配置通知类 -->
+    <bean class="sk.spring.active.MyActive" name="myActive"></bean>
+
+    <!-- 3. 开启注解aop -->
+    <aop:aspectj-autoproxy  />
+
+
+
+
+    <!-- 通过Spring提供的数据源事务管理器，管理事务
+            1. 提供通知(环绕通知)
+            2. 提供织入
+         -->
+    <bean name="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"	>
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 配置事务通知 -
+        transaction-manager : 对应配置的数据源事务管理器对象
+    -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <!-- 在实际开发中，要应用这种配置:在service层下的class配置好切面，可以通过方法前缀来开启事务功能 -->
+            <tx:method name="save*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="add*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="update*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="modify*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="delete*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="remove*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="get*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="true"/>
+            <!-- 事务添加到的方法 -->
+            <tx:method name="account" isolation="REPEATABLE_READ" propagation="REQUIRED" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置AOP织入 -->
+    <aop:config>
+        <!-- 配置切入点 -->
+        <aop:pointcut expression="execution(* sk.spring1.service.*ServiceImpl.*(..))" id="tx"/>
+        <!-- 将通知(增强代码) 加入到切入点 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="tx"/>
+    </aop:config>
+
+    <!--
+        转账功能：
+            1. 创建一张表： account
+            2. 编写dao  <*****>
+            3. 编写service
+            4. 将dao和service托管给spring
+
+            5. 使用Spring AOE 事务处理 (*****)
+     -->
+    <!-- 1. 创建一个properties配置文件 配置数据库的连接信息-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 2. 配置数据源 (数据库连接池)对象 -->
+    <bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!-- 2.1 驱动 -->
+        <property name="driverClass" value="${jdbc.driverClass}"></property>
+        <!-- 2.2 连接字符串  ${} === ognl表达式 -->
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        <!-- 2.3 用户名-->
+        <property name="user" value="${jdbc.user}"></property>
+        <!-- 2.4 密码 -->
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+    <!-- 3. 配置dao对象 -->
+    <bean name="accountDao" class="sk.spring1.dao.AccountDaoImpl">
+        <!-- 4. dao操作数据库，必须告知dao数据源在哪里 -->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 4. 将service对象配置给Spring容器 -->
+    <bean name="accountService" class="sk.spring1.service.AccountServiceImpl">
+        <!-- name = "dao" 指的是匹配serviceImpl中的dao对象名-->
+        <!-- ref="配置好的dao对象" -->
+        <property name="dao" ref="accountDao"></property>
+    </bean>
+</beans>

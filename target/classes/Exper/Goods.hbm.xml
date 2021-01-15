@@ -1,0 +1,9 @@
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="Exper.entity.Goods" table="goods">
+        <id name="gid" column="gid">
+            <generator class="native"/>
+        </id>
+        <property name="gname" column="gname"/>
+        <property name="price" column="price"/>
+    </class>
+</hibernate-mapping>
