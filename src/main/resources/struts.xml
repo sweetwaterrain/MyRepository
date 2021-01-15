@@ -29,21 +29,6 @@
             <result name="error">/Exper/error.jsp</result>
         </action>
     </package>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--    <package name="many" namespace="/ManyToMany" extends="struts-default">-->
 <!--        <action name="many" class="com.gly.testHibernate.ManyToMany.action.ManyToManyAction" method="HQ">-->
 <!--            <result name="success">/ManyToMany/index.jsp</result>-->
